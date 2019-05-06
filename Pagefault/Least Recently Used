@@ -1,0 +1,69 @@
+#include<bits/stdc++.h> 
+using namespace std;
+int LRU(int time1[],int n){
+    int min=time1[0],pos=0,i;
+    for(i=1;i<n;i++){
+        if(time1[i]<min){
+            pos=i;
+        }
+    }
+    return pos;
+}
+int main() {
+    int n;
+    cin>>n;
+    int arr[n],time1[n];
+    int pagefault=0,i,j=0;
+    for(i=0;i<n;i++){
+        arr[i]=-1;
+    }
+    int d,f1=0,f2=0,count=0;
+    cin>>d;
+    int page[d];
+    for(i=0;i<d;i++){
+        cin>>page[i];
+        cout<<page[i]<<" ";
+    }
+    for(i=0;i<d;i++){
+        f1=0;
+        f2=0;
+        cin>>page[i];
+        for(j=0;j<n;j++){
+            if(arr[j]==page[i]){
+                count++;
+                time1[j]=count;
+                f1=1;
+                f2=1;
+                break;
+            }
+        }
+        if(f1==0){
+            for(j=0;j<n;j++){
+                if(arr[j]==-1){
+                    count++;
+                    pagefault++;
+                    arr[j]=page[i];
+                    time1[j]=count;
+                    f2=1;
+                    break;
+                }
+            }
+        }
+        
+        if(f2==0){
+            int pos=LRU(time1,n);
+            count++;
+            pagefault++;
+            arr[pos]=page[i];
+            time1[pos]=count;
+        }
+        cout<<endl;
+        for(j=0;j<n;j++){
+            cout<<arr[j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl<<pagefault;
+    
+	return 0;
+}
